@@ -1,87 +1,160 @@
-const playBtn = document.querySelector(".playBtn")
-const startScreen = document.querySelector(".start-screen")
+const roundWinnerDiv = document.querySelector(".roundWinnerDiv");
+const roundWinner = roundWinnerDiv.querySelector(".roundWinner");
 
-playBtn.addEventListener('click', displayChoices)
+const winnerDiv = document.querySelector(".winnerDiv");
+const winner = winnerDiv.querySelector(".winner");
 
-function displayChoices() {
-    startScreen.remove()
+const scoresDiv = document.querySelector(".scoresDiv");
+const playerScore = scoresDiv.querySelector(".playerScore");
+const computerScore = scoresDiv.querySelector(".computerScore");
 
-    const divForChoices = document.createElement('div')
-    document.body.appendChild(divForChoices)
+const playerChoicesDiv = document.querySelector(".playerChoicesDiv");
+const playerChoice = playerChoicesDiv.querySelector(".playerChoice");
+const computerChoice = playerChoicesDiv.querySelector(".computerChoice");
 
-    const rock = document.createElement('button')
-    rock.textContent = 'Rock'
-    divForChoices.appendChild(rock)
+const choicesDiv = document.querySelector(".choicesDiv");
+const rock = choicesDiv.querySelector(".rock");
+const paper = choicesDiv.querySelector(".paper");
+const scissors = choicesDiv.querySelector(".scissors");
 
-    const paper = document.createElement('button')
-    paper.textContent = 'Paper'
-    divForChoices.appendChild(paper)
+const playAgainDiv = document.querySelector(".playAgainDiv");
+const playAgainBtn = playAgainDiv.querySelector(".playAgainBtn");
 
-    const scissors = document.createElement('button')
-    scissors.textContent = 'Scissors'
-    divForChoices.appendChild(scissors)
+function displayWinner() {
+  if (gameState.playerScore > gameState.computerScore) {
+    winner.textContent = "You Win!";
+  } else {
+    winner.textContent = "Computer Win!";
+  }
 }
 
+function displayRoundWinner() {
+  gameState.roundWinner === "Tie"
+    ? (roundWinner.textContent = `${gameState.roundWinner} round!`)
+    : (roundWinner.textContent = `${gameState.roundWinner} won this round!`);
+}
+
+function displayScoreContent() {
+  playerScore.textContent = `Player score: ${gameState.playerScore}`;
+  computerScore.textContent = `Computer score: ${gameState.computerScore}`;
+}
+
+function displayChoices() {
+  playerChoice.textContent = `You picked ${gameState.playerChoice}`;
+  computerChoice.textContent = `Computer picked ${gameState.computerChoice}`;
+}
+
+function resetTextContents() {
+  winner.textContent = "";
+  roundWinner.textContent = "";
+  playerScore.textContent = "Player score: 0";
+  computerScore.textContent = "Computer score: 0";
+  playerChoice.textContent = "";
+  computerChoice.textContent = "";
+}
+
+const gameState = {
+  playerChoice: "",
+  computerChoice: "",
+  roundWinner: "",
+  playerScore: 0,
+  computerScore: 0,
+  maxScore: 5,
+  winner: "",
+};
+
+function resetGameState() {
+  Object.assign(gameState, {
+    playerChoice: "",
+    computerChoice: "",
+    roundWinner: "",
+    playerScore: 0,
+    computerScore: 0,
+    maxScore: 5,
+    winner: "",
+  });
+}
 
 function getComputerChoice() {
-        randomNumber = Math.floor(Math.random() * 3);
-        return randomNumber;
-      }
+  const choices = ["Rock", "Paper", "Scissors"];
+  gameState.computerChoice = choices[Math.floor(Math.random() * 3)];
+}
 
-      function getHumanChoice() {
-        let humanChoice = prompt("Rock, Paper or Scissors?", "");
-        humanChoice = humanChoice.toLowerCase();
-        switch (humanChoice) {
-          case "rock":
-            return 0;
-            break;
-          case "paper":
-            return 1;
-            break;
-          case "scissors":
-            return 2;
-            break;
-        }
-      }
+function handleChoices(event) {
+  if (isMaxScore()) return;
+~
+  getComputerChoice();
+  switch (true) {
+    case event.target.classList.contains("rock"):
+      gameState.playerChoice = "Rock";
+      break;
+    case event.target.classList.contains("paper"):
+      gameState.playerChoice = "Paper";
+      break;
+    case event.target.classList.contains("scissors"):
+      gameState.playerChoice = "Scissors";
+      break;
+  }
+  compareChoices(gameState.playerChoice, gameState.computerChoice);
+}
 
-      let humanScore = 0;
-      let computerScore = 0;
+function compareChoices(playerChoice, computerChoice) {
+  if (playerChoice === computerChoice) {
+    gameState.roundWinner = "Tie";
+  } else if (
+    (playerChoice === "Rock" && computerChoice === "Scissors") ||
+    (playerChoice === "Paper" && computerChoice === "Rock") ||
+    (playerChoice === "Scissors" && computerChoice === "Paper")
+  ) {
+    gameState.roundWinner = "Player";
+  } else {
+    gameState.roundWinner = "Computer";
+  }
+  updateScores(gameState.roundWinner);
+}
 
-      function playRound(humanChoice, computerChoice) {
-        if (humanChoice === computerChoice) {
-          console.log("TIEE");
-          console.log(
-            "Your score:",
-            ++humanScore,
-            "Computer score",
-            ++computerScore
-          );
-        } else if (
-          (humanChoice === 1 && computerChoice === 0) ||
-          (humanChoice === 2 && computerChoice === 1) ||
-          (humanChoice === 0 && computerChoice === 2)
-        ) {
-          console.log("YOU WIN!");
-          console.log(
-            "Your score",
-            ++humanScore,
-            "COmputer score",
-            computerScore
-          );
-        } else {
-          console.log("YOU LOSE!");
-          console.log(
-            "Your score",
-            humanScore,
-            "Computer score",
-            ++computerScore
-          );
-        }
-      }
+function updateScores(winner) {
+  switch (winner) {
+    case "Player":
+      gameState.playerScore++;
+      break;
+    case "Computer":
+      gameState.computerScore++;
+  }
+  showResult();
+  checkIfEndGame();
+}
 
-      function playGame() {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
+function showResult() {
+  displayRoundWinner();
+  displayChoices();
+  displayScoreContent();
+}
 
-        playRound(humanSelection, computerSelection);
-      }
+function toggleVisibility(element, display) {
+  element.style.display = display;
+}
+
+function isMaxScore() {
+  return (
+    gameState.playerScore === gameState.maxScore ||
+    gameState.computerScore === gameState.maxScore
+  );
+}
+
+function checkIfEndGame() {
+  if (isMaxScore()) {
+    toggleVisibility(playAgainDiv, "block");
+    displayWinner();
+  }
+}
+
+choicesDiv.addEventListener("click", (e) => {
+  handleChoices(e);
+});
+
+playAgainBtn.addEventListener("click", (e) => {
+  toggleVisibility(playAgainDiv, "none");
+  resetGameState();
+  resetTextContents();
+});
