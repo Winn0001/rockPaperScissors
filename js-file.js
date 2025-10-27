@@ -1,24 +1,30 @@
 const roundWinnerDiv = document.querySelector(".roundWinnerDiv");
 const roundWinner = roundWinnerDiv.querySelector(".roundWinner");
+toggleVisibility(roundWinnerDiv, "none");
 
 const winnerDiv = document.querySelector(".winnerDiv");
 const winner = winnerDiv.querySelector(".winner");
+toggleVisibility(winnerDiv, "none");
 
-const scoresDiv = document.querySelector(".scoresDiv");
-const playerScore = scoresDiv.querySelector(".playerScore");
-const computerScore = scoresDiv.querySelector(".computerScore");
+const ruleMessageDiv = document.querySelector(".ruleMessageDiv");
+
+const scores = document.querySelector(".scoresDiv");
+const playerScore = scores.querySelector(".playerScore");
+const computerScore = scores.querySelector(".computerScore");
+
+const selectMessage = document.querySelector(".selectMessage");
 
 const playerChoicesDiv = document.querySelector(".playerChoicesDiv");
-const playerChoice = playerChoicesDiv.querySelector(".playerChoice");
-const computerChoice = playerChoicesDiv.querySelector(".computerChoice");
+const [computerChoice, playerChoice] = playerChoicesDiv.querySelectorAll(
+  ".computerChoice, .playerChoice"
+);
+toggleVisibility(playerChoicesDiv, "none");
 
 const choicesDiv = document.querySelector(".choicesDiv");
-const rock = choicesDiv.querySelector(".rock");
-const paper = choicesDiv.querySelector(".paper");
-const scissors = choicesDiv.querySelector(".scissors");
 
 const playAgainDiv = document.querySelector(".playAgainDiv");
 const playAgainBtn = playAgainDiv.querySelector(".playAgainBtn");
+toggleVisibility(playAgainDiv, "none");
 
 function displayWinner() {
   if (gameState.playerScore > gameState.computerScore) {
@@ -35,8 +41,8 @@ function displayRoundWinner() {
 }
 
 function displayScoreContent() {
-  playerScore.textContent = `Player score: ${gameState.playerScore}`;
-  computerScore.textContent = `Computer score: ${gameState.computerScore}`;
+  playerScore.textContent = `${gameState.playerScore}`;
+  computerScore.textContent = `${gameState.computerScore}`;
 }
 
 function displayChoices() {
@@ -47,8 +53,8 @@ function displayChoices() {
 function resetTextContents() {
   winner.textContent = "";
   roundWinner.textContent = "";
-  playerScore.textContent = "Player score: 0";
-  computerScore.textContent = "Computer score: 0";
+  playerScore.textContent = "0";
+  computerScore.textContent = "0";
   playerChoice.textContent = "";
   computerChoice.textContent = "";
 }
@@ -82,8 +88,7 @@ function getComputerChoice() {
 
 function handleChoices(event) {
   if (isMaxScore()) return;
-~
-  getComputerChoice();
+  ~getComputerChoice();
   switch (true) {
     case event.target.classList.contains("rock"):
       gameState.playerChoice = "Rock";
@@ -144,17 +149,27 @@ function isMaxScore() {
 
 function checkIfEndGame() {
   if (isMaxScore()) {
-    toggleVisibility(playAgainDiv, "block");
+    toggleVisibility(winnerDiv, "");
+    toggleVisibility(ruleMessageDiv, "none");
+    toggleVisibility(playAgainDiv, "");
     displayWinner();
   }
 }
 
 choicesDiv.addEventListener("click", (e) => {
   handleChoices(e);
+  toggleVisibility(selectMessage, "none");
+  toggleVisibility(playerChoicesDiv, "");
+  toggleVisibility(roundWinnerDiv, "");
 });
 
 playAgainBtn.addEventListener("click", (e) => {
+  toggleVisibility(winnerDiv, "none");
   toggleVisibility(playAgainDiv, "none");
+  toggleVisibility(ruleMessageDiv, "");
+  toggleVisibility(selectMessage, "");
   resetGameState();
   resetTextContents();
+  toggleVisibility(playerChoicesDiv, "none");
+  toggleVisibility(roundWinnerDiv, "none");
 });
