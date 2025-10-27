@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Stalinist+One&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Stalinist One", sans-serif;
+  background-color: rgb(252, 255, 208);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.winnerDiv,
+.headerContainer,
+.gameDiv,
+.ruleMessageDiv,
+.roundWinnerDiv,
+.playerChoicesDiv,
+.selectMessage,
+.scoresDiv,
+.choicesDiv,
+.playAgainDiv,
+.scoresDiv div,
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  background-color: rgb(238, 255, 0);
+  font-family: "Stalinist One", sans-serif;
+  box-sizing: border-box;
+  font-size: 15px;
+  padding: 0;
+  height: 60px;
+  width: 150px;
+  border-radius: 10px;
+}
+
+.headerContainer {
+  background-color: rgb(31, 31, 31);
+  color: rgb(238, 255, 0);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-size: 60px;
+  height: 150px;
+}
+
+.gameDiv {
+  flex-direction: column;
+}
+
+.choicesDiv {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  width: 500px;
+  justify-content: space-between;
+}
+
+.playerChoicesDiv,
+.selectMessage {
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.winnerDiv,
+.ruleMessageDiv {
+  background-color: rgb(238, 255, 0);
+  font-size: 60px;
+  height: 120px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.roundWinnerDiv {
+  height: 80px;
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.playerChoicesDiv {
+  gap: 20px;
+  font-size: 25px;
+}
+.scoresDiv div {
+  flex-direction: column;
+}
+
+.scoresDiv {
+  width: 500px;
+  justify-content: space-between;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.scoresDiv .playerScore,
+.scoresDiv .computerScore {
+  font-size: 20px;
+}
+
+.selectMessage {
+  height: 194px;
+  font-size: 40px;
+}
+
+.footer {
+  margin-top: auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
