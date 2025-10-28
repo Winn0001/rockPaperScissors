@@ -36,7 +36,7 @@ function displayWinner() {
 
 function displayRoundWinner() {
   gameState.roundWinner === "Tie"
-    ? (roundWinner.textContent = `${gameState.roundWinner} round!`)
+    ? (roundWinner.textContent = `${gameState.roundWinner}!`)
     : (roundWinner.textContent = `${gameState.roundWinner} won this round!`);
 }
 
