@@ -30,7 +30,7 @@ function displayWinner() {
   if (gameState.playerScore > gameState.computerScore) {
     winner.textContent = "You Win!";
   } else {
-    winner.textContent = "Computer Win!";
+    winner.textContent = "Computer Wins!";
   }
 }
 
