@@ -52,8 +52,8 @@ button:hover {
 }
 
 button:active {
-  transform: scale(1.03);
-  transition: transform 0.3s;
+  transform: scale(0.9);
+  transition: transform 0.2s;
 }
 
 .headerContainer {
